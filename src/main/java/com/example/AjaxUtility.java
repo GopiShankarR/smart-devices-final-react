@@ -16,11 +16,9 @@ public class AjaxUtility {
         this.productMap = productMap;
     }
 
-    // Method to get product suggestions based on user input
     public List<String> getProductSuggestions(String query) {
         List<String> suggestions = new ArrayList<>();
 
-        // Loop through the product map to find matches
         for (String productName : productMap.keySet()) {
             if (productName.toLowerCase().startsWith(query.toLowerCase())) {
                 suggestions.add(productName);
@@ -29,11 +27,9 @@ public class AjaxUtility {
         return suggestions;
     }
 
-    // Method to add a product to the HashMap and MySQL database
     public void addProduct(Product product) throws SQLException {
         productMap.put(product.getName(), product);
 
-        // Insert product into MySQL database
         try (Connection conn = MySQLDataStoreUtilities.getConnection()) {
             String sql = "INSERT INTO products (id, name, price, description, manufacturer, imageUrl, category) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -49,11 +45,9 @@ public class AjaxUtility {
         }
     }
 
-    // Method to update a product in the HashMap and MySQL database
     public void updateProduct(Product product) throws SQLException {
         productMap.put(product.getName(), product);
 
-        // Update product in MySQL database
         try (Connection conn = MySQLDataStoreUtilities.getConnection()) {
             String sql = "UPDATE products SET price = ?, description = ?, manufacturer = ?, imageUrl = ?, category = ? WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -68,13 +62,11 @@ public class AjaxUtility {
         }
     }
 
-    // Method to delete a product from the HashMap and MySQL database
     public void deleteProduct(String productName) throws SQLException {
         Product product = productMap.get(productName);
         if (product != null) {
             productMap.remove(productName);
 
-            // Delete product from MySQL database
             try (Connection conn = MySQLDataStoreUtilities.getConnection()) {
                 String sql = "DELETE FROM products WHERE id = ?";
                 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
