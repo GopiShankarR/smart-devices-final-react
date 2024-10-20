@@ -107,7 +107,7 @@ public class CartServlet extends HttpServlet {
 
     int quantity = jsonObject.has("quantity") && !jsonObject.get("quantity").isJsonNull() 
                    ? jsonObject.get("quantity").getAsInt() 
-                   : 1;  // Default to 1 if quantity is not provided
+                   : 1;
 
 
         try {

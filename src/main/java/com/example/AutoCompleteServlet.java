@@ -22,7 +22,6 @@ public class AutoCompleteServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        // Retrieve the shared ProductCatalogUtility instance
         productCatalogUtility = (ProductCatalogUtility) getServletContext().getAttribute("productCatalogUtility");
         if (productCatalogUtility == null) {
             String xmlFilePath = getServletContext().getInitParameter("ProductCatalogXMLPath");

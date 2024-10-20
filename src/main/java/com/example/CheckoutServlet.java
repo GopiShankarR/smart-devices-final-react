@@ -47,7 +47,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
     JsonArray itemsArray = jsonObject.getAsJsonArray("cartItems");
 
-    // Initialize productCatalogUtility if not already done
     productCatalogUtility = (ProductCatalogUtility) getServletContext().getAttribute("productCatalogUtility");
     if (productCatalogUtility == null) {
         String xmlFilePath = getServletContext().getInitParameter("ProductCatalogXMLPath");
@@ -56,7 +55,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     }
 
     try {
-        // Check product availability
         for (int i = 0; i < itemsArray.size(); i++) {
             JsonObject item = itemsArray.get(i).getAsJsonObject();
             int productId = item.get("id").getAsInt();
@@ -73,7 +71,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             }
         }
 
-        // Proceed with saving the order if quantities are sufficient
         String deliveryOption = jsonObject.get("deliveryOption").getAsString();
         JsonObject addressObject = jsonObject.get("address").getAsJsonObject();
         String orderPlacedDate = jsonObject.get("orderPlacedDate").getAsString();
@@ -89,13 +86,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         MySQLDataStoreUtilities.saveOrderItems(orderId, itemsArray);
         MySQLDataStoreUtilities.removeItemsFromCart(username);
 
-        // Update product quantities in both the database and XML
         for (int i = 0; i < itemsArray.size(); i++) {
             JsonObject item = itemsArray.get(i).getAsJsonObject();
             int productId = item.get("id").getAsInt();
             int orderedQuantity = item.get("quantity").getAsInt();
 
-            // Update product quantity in the database
             boolean quantityUpdated = MySQLDataStoreUtilities.updateProductQuantity(String.valueOf(productId), orderedQuantity);
             if (quantityUpdated) {
                 try {
@@ -108,7 +103,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             }
         }
 
-        // Send response back with confirmation number and delivery date
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("confirmationNumber", confirmationNumber);
         jsonResponse.addProperty("deliveryDate", orderDeliveryDate);

@@ -53,7 +53,6 @@ public class ProductServlet extends HttpServlet {
             List<Product> products;
 
             if (name != null) {
-                // Search by product name
                 Product product = MySQLDataStoreUtilities.getProductByNameWithConnection(conn, name);
                 if (product != null) {
                     JsonObject jsonProduct = new JsonObject();
@@ -169,14 +168,12 @@ public class ProductServlet extends HttpServlet {
                 if ("update".equals(action)) {
                     success = dbUtil.updateProduct(String.valueOf(id), name, price, description, manufacturer, imageUrl, category, productQuantity, onSale, manufacturerRebate);
                     if (success) {
-                        // Update XML and HashMap
                         productCatalogUtility.updateProductInXML(product);
                         productCatalogUtility.updateProductInMap(product);
                     }
                 } else {
                     success = dbUtil.addProductWithId(String.valueOf(id), name, price, description, manufacturer, imageUrl, category, aidsArray, productQuantity, onSale, manufacturerRebate);
                     if (success) {
-                        // Add to XML and HashMap
                         productCatalogUtility.addProductToXML(product);
                         productCatalogUtility.addProductToMap(product);
                     }

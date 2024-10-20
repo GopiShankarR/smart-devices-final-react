@@ -24,12 +24,10 @@ public class InventoryReportServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            // Fetch inventory data using MySQLDataStoreUtilities
             List<ProductInventory> productInventories = MySQLDataStoreUtilities.getAllProductsInventory();
             List<ProductInventory> productsOnSale = MySQLDataStoreUtilities.getProductsOnSale();
             List<ProductInventory> productsWithRebates = MySQLDataStoreUtilities.getProductsWithManufacturerRebates();
 
-            // Prepare JSON response
             Gson gson = new Gson();
             InventoryReport report = new InventoryReport(productInventories, productsOnSale, productsWithRebates);
             String jsonResponse = gson.toJson(report);
@@ -52,7 +50,6 @@ public class InventoryReportServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    // Inventory report object to hold different lists
     class InventoryReport {
         List<ProductInventory> productInventories;
         List<ProductInventory> productsOnSale;

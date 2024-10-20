@@ -101,7 +101,6 @@ public class TrendingServlet extends HttpServlet {
         }
         trendingData.add("topZipCodes", topZipCodesArray);
 
-        // Get top 5 most sold products
         List<Document> topSoldProducts = reviewsCollection.aggregate(Arrays.asList(
                 Aggregates.group("$productModelName", Accumulators.sum("soldCount", 1)),
                 Aggregates.sort(Sorts.descending("soldCount")),

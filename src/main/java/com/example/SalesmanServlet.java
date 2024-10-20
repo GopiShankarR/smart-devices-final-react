@@ -21,9 +21,8 @@ import java.security.SecureRandom;
 public class SalesmanServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // Establish a connection to MySQL
     private Connection getConnection() throws SQLException {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/your_database_name"; // Update your DB details
+        String jdbcUrl = "jdbc:mysql://localhost:3306/your_database_name"; 
         String jdbcUser = "root";
         String jdbcPassword = "password";
         return DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
@@ -126,7 +125,6 @@ public class SalesmanServlet extends HttpServlet {
         double discount = jsonObject.has("discount") ? jsonObject.get("discount").getAsDouble() : 0;
         String deliveryOption = jsonObject.get("deliveryOption").getAsString();
 
-        // Fetch the product price
         Product productInfo = MySQLDataStoreUtilities.getProductByName(product);
         if (productInfo == null) {
             response.getWriter().write("{\"error\": \"Product not found\"}");
@@ -135,10 +133,8 @@ public class SalesmanServlet extends HttpServlet {
 
         double finalPrice = productInfo.getPrice() - discount;
 
-        // Generate confirmation number
         String confirmationNumber = generateConfirmationNumber();
 
-        // Save the order in the database
         MySQLDataStoreUtilities.addOrder(username, confirmationNumber, productInfo.getName(), finalPrice, discount, deliveryOption);
 
         JsonObject jsonResponse = new JsonObject();

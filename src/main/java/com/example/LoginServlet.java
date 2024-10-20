@@ -33,16 +33,13 @@ public class LoginServlet extends HttpServlet {
         String password = jsonObject.get("password").getAsString();
 
         try {
-            // Use MySQLDataStoreUtilities to authenticate the user
             String userType = MySQLDataStoreUtilities.authenticateUser(username, password);
 
             JsonObject jsonResponse = new JsonObject();
             if (userType != null) {
-                // Login successful
                 jsonResponse.addProperty("success", true);
                 jsonResponse.addProperty("redirect", getRedirectPathForUser(userType));
             } else {
-                // Login failed
                 jsonResponse.addProperty("success", false);
                 jsonResponse.addProperty("redirect", "/login");
             }
@@ -62,7 +59,6 @@ public class LoginServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    // Method to handle userType-based redirection
     private String getRedirectPathForUser(String userType) {
         switch (userType) {
             case "Customer":

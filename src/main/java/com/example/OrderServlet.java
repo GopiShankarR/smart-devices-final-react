@@ -59,7 +59,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
     }
 
     try {
-        // Now we're fetching orders with associated product names
         List<OrderInfo> orders = MySQLDataStoreUtilities.getOrdersWithProductsByUsername(username);
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.add("orders", gson.toJsonTree(orders));

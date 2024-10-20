@@ -686,12 +686,12 @@ public static JsonArray getAllOrders() throws SQLException {
                 return new Product(
                     rs.getInt("product_id"),
                     rs.getString("product_name"),
-                    rs.getDouble("price"),                // Correct order: price should be here
-                    rs.getString("description"),           // Correct order: description next
+                    rs.getDouble("price"), 
+                    rs.getString("description"),  
                     rs.getString("manufacturer"),
                     rs.getString("imageurl"),
-                    rs.getString("category"),              // Category comes after imageUrl
-                    rs.getInt("product_quantity"),         // Correct type and order
+                    rs.getString("category"),  
+                    rs.getInt("product_quantity"), 
                     rs.getBoolean("on_sale"),
                     rs.getBoolean("manufacturer_rebate")
                 );
@@ -712,12 +712,12 @@ public static JsonArray getAllOrders() throws SQLException {
                 return new Product(
                     rs.getInt("product_id"),
                     rs.getString("product_name"),
-                    rs.getDouble("price"),                // Correct order: price should be here
-                    rs.getString("description"),           // Correct order: description next
+                    rs.getDouble("price"), 
+                    rs.getString("description"), 
                     rs.getString("manufacturer"),
                     rs.getString("imageurl"),
-                    rs.getString("category"),              // Category comes after imageUrl
-                    rs.getInt("product_quantity"),         // Correct type and order
+                    rs.getString("category"),
+                    rs.getInt("product_quantity"), 
                     rs.getBoolean("on_sale"),
                     rs.getBoolean("manufacturer_rebate")
                 );
@@ -950,7 +950,7 @@ public static JsonArray getAllOrders() throws SQLException {
           stmt.setString(2, productId);
           
           int rowsUpdated = stmt.executeUpdate();
-          return rowsUpdated > 0; // Return true if at least one row was updated
+          return rowsUpdated > 0; 
       } catch (SQLException e) {
           e.printStackTrace();
           return false;
@@ -1032,7 +1032,6 @@ public static JsonArray getAllOrders() throws SQLException {
         return inventoryList;
     }
 
-    // Method to fetch products currently on sale
     public static List<ProductInventory> getProductsOnSale() throws SQLException {
         List<ProductInventory> saleList = new ArrayList<>();
         String query = "SELECT product_name, price FROM products WHERE on_sale = TRUE";
@@ -1044,7 +1043,7 @@ public static JsonArray getAllOrders() throws SQLException {
             while (rs.next()) {
                 String name = rs.getString("product_name");
                 double price = rs.getDouble("price");
-                saleList.add(new ProductInventory(name, price, 0)); // Quantity is irrelevant for on sale
+                saleList.add(new ProductInventory(name, price, 0)); 
             }
         }
         return saleList;

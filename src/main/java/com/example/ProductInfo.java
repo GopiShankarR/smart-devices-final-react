@@ -7,7 +7,6 @@ public class ProductInfo {
     private double productPrice;
     private String productManufacturer;
 
-    // Constructor with all fields
     public ProductInfo(int productId, String productName, String productCategory, double productPrice, String productManufacturer) {
         this.productId = productId;
         this.productName = productName;
@@ -16,7 +15,6 @@ public class ProductInfo {
         this.productManufacturer = productManufacturer;
     }
 
-    // Getters
     public int getProductId() { 
       return productId; 
     }
@@ -37,7 +35,6 @@ public class ProductInfo {
       return productManufacturer;
     }
 
-    // Setters
     public void setProductId(int productId) {
         this.productId = productId;
     }

@@ -193,7 +193,6 @@ public class ProductCatalogUtility {
                 String pid = getTagValue("product_id", productElement);
 
                 if (pid.equals(String.valueOf(productId))) {
-                    // Remove the product element
                     productElement.getParentNode().removeChild(productElement);
                     break;
                 }
@@ -234,7 +233,6 @@ public class ProductCatalogUtility {
           }
       }
 
-      // Write the updated XML back to the file
       writeXMLFile(doc, xmlFilePath);
     }
 

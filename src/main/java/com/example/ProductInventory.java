@@ -11,7 +11,6 @@ public class ProductInventory {
         this.totalQuantity = totalQuantity;
     }
 
-    // Getters
     public String getProductName() {
         return productName;
     }
@@ -23,8 +22,7 @@ public class ProductInventory {
     public int getTotalQuantity() {
         return totalQuantity;
     }
-
-    // Setters (if needed)
+    
     public void setProductName(String productName) {
         this.productName = productName;
     }
