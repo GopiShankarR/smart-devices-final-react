@@ -52,12 +52,11 @@ const Header = ({ isLoggedIn, userType, username, onLogout }) => {
   };
 
   const handleSuggestionClick = (productName) => {
-    // Send the product name to the backend to fetch product details
+
     $.ajax({
       type: 'GET',
-      url: `http://localhost:8080/backend/product?name=${productName}`, // Fetch product details by name
+      url: `http://localhost:8080/backend/product?name=${productName}`,
       success: (response) => {
-        // Navigate to product details page with the fetched response data
         navigate(`/product-details`, { state: { product: response } });
       },
       error: (xhr, status, error) => {
