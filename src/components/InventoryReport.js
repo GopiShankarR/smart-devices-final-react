@@ -46,8 +46,7 @@ const InventoryReport = () => {
     ...inventoryData.productInventories.map(product => [product.productName, product.totalQuantity]),
   ];
 
-  // Set chart height dynamically based on the number of products
-  const chartHeight = inventoryData.productInventories.length * 40; // Adjust 40 to control row height
+  const chartHeight = inventoryData.productInventories.length * 40;
 
   const chartOptions = {
     title: "Inventory Levels by Product",
@@ -66,7 +65,6 @@ const InventoryReport = () => {
     <div className="inventory-report">
       <h1>Inventory Report</h1>
 
-      {/* Product Inventory Table */}
       <div className="inventory-section">
         <h2>Product Inventory</h2>
         <table className="inventory-table">
@@ -89,7 +87,6 @@ const InventoryReport = () => {
         </table>
       </div>
 
-      {/* Inventory Levels Bar Chart */}
       <div className="inventory-section">
         <h2>Inventory Levels Bar Chart</h2>
         <Chart
@@ -101,7 +98,6 @@ const InventoryReport = () => {
         />
       </div>
 
-      {/* Products on Sale Table */}
       <div className="inventory-section">
         <h2>Products on Sale</h2>
         <table className="inventory-table">
@@ -124,7 +120,6 @@ const InventoryReport = () => {
         </table>
       </div>
 
-      {/* Products with Manufacturer Rebates Table */}
       <div className="inventory-section">
         <h2>Products with Manufacturer Rebates</h2>
         <table className="inventory-table">

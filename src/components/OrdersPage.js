@@ -17,7 +17,7 @@ const OrdersPage = () => {
       contentType: "application/json",
       success: (response) => {
         console.log("response:", response);
-        setOrders(response.orders); // Assuming orders are in response.orders
+        setOrders(response.orders);
         setLoading(false);
       },
       error: (xhr, status, error) => {
@@ -29,7 +29,7 @@ const OrdersPage = () => {
   
   const formatDateToMMDDYYYY = (dateString) => {
     const [year, month, day] = dateString.split('-');
-    return `${month}-${day}-${year}`; // MM-DD-YYYY format
+    return `${month}-${day}-${year}`; 
   };
 
   const handleAddReview = (userId, productId, productName, username, confirmationNumber) => {
@@ -45,7 +45,6 @@ const OrdersPage = () => {
     });
   };
 
-  // Handle canceling an order
   const handleCancelOrder = (confirmationNumber) => {
     $.ajax({
       type: "POST",
@@ -84,12 +83,11 @@ const OrdersPage = () => {
             </thead>
             <tbody>
               {orders.map(order => {
-                // Format delivery date and order placed date to MM-DD-YYYY
                 const formattedDeliveryDate = formatDateToMMDDYYYY(order.deliveryDate);
                 const formattedOrderPlacedDate = formatDateToMMDDYYYY(order.orderPlacedDate);
 
-                const deliveryDate = new Date(order.deliveryDate); // Convert to Date object
-                const orderPlacedDate = new Date(order.orderPlacedDate); // Convert to Date object
+                const deliveryDate = new Date(order.deliveryDate); 
+                const orderPlacedDate = new Date(order.orderPlacedDate); 
                 
                 const timeDifference = deliveryDate - orderPlacedDate;
                 const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
