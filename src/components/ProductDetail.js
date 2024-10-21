@@ -26,7 +26,7 @@ const ProductDetail = () => {
           console.log(data);
           setAccessories(data[0].aids);
         } else {
-          setAccessories([]); // No accessories found, setting an empty array
+          setAccessories([]); 
         }
   
       },

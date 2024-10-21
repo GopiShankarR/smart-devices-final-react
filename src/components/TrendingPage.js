@@ -42,7 +42,6 @@ const TrendingPage = () => {
         </div>
       </div>
   
-      {/* Top Zip Codes Section */}
       <div className="trending-section">
   <h2>Top 5 Zip Codes with Maximum Products Sold</h2>
   <table className="zip-table">
@@ -55,7 +54,7 @@ const TrendingPage = () => {
     <tbody>
       {trendingData.topZipCodes
         .filter((zipCode) => zipCode.zip !== "Not available for home delivery orders")
-        .slice(0, 5) // Ensure that only the top 5 are shown after filtering
+        .slice(0, 5)
         .map((zipCode, index) => (
           <tr key={index}>
             <td>{zipCode.zip}</td>
@@ -66,7 +65,6 @@ const TrendingPage = () => {
   </table>
 </div>
   
-      {/* Top Sold Products Section */}
       <div className="trending-section">
         <h2>Top 5 Most Sold Products</h2>
         <div className="product-card-container">

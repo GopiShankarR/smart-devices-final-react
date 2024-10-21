@@ -43,9 +43,8 @@ const ProductCategory = ({ category, username }) => {
     });
   }, [category]);
 
-  // Constants for discounts and rebates
-  const SALE_DISCOUNT_PERCENTAGE = 0.10; // 10% discount for products on sale
-  const REBATE_PERCENTAGE = 0.05; // 5% rebate for products with manufacturer rebates
+  const SALE_DISCOUNT_PERCENTAGE = 0.10; 
+  const REBATE_PERCENTAGE = 0.05; 
 
   const getEffectivePrice = (product) => {
     let price = product.price;

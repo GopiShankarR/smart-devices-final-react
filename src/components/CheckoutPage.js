@@ -202,7 +202,7 @@ const StorePickup = ({ selectedStore, setSelectedStore }) => {
       <select value={selectedStore?.store_id || ''} onChange={handleStoreChange}>
         {stores.length > 0 ? (
           stores.map((store, index) => (
-            <option key={index} value={store.store_id}>  {/* Use store_id */}
+            <option key={index} value={store.store_id}> 
               {store.store_name}, {store.street}, {store.city}, {store.state} {store.zip_code}
             </option>
           ))

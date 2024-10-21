@@ -23,13 +23,11 @@ const SalesReport = () => {
     });
   }, []);
 
-  // Prepare bar chart data for product sales
   const barChartData = [
     ["Product", "Total Sales"],
     ...salesData.productSalesData.map(data => [data.productName, data.totalSales]),
   ];
 
-  // Set chart height dynamically based on the number of products
   const chartHeight = salesData.productSalesData.length * 40;
 
   const chartOptions = {
@@ -49,7 +47,6 @@ const SalesReport = () => {
     <div className="sales-report">
       <h1>Sales Report</h1>
 
-      {/* Product Sales Data Table */}
       <div className="sales-section">
         <h2>Product Sales Data</h2>
         <table className="sales-table">
@@ -74,7 +71,6 @@ const SalesReport = () => {
         </table>
       </div>
 
-      {/* Sales Levels Bar Chart */}
       <div className="sales-section">
         <h2>Total Sales by Product</h2>
         <Chart
@@ -86,7 +82,6 @@ const SalesReport = () => {
         />
       </div>
 
-      {/* Daily Sales Data Table */}
       <div className="sales-section">
         <h2>Daily Sales Transactions</h2>
         <table className="sales-table">
