@@ -1,0 +1,205 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #282c34;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.logo {
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+  margin-right: 30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
+
+.nav-item.trending a {
+  color: #f39c12; /* Unique highlight color for Trending */
+}
+
+.nav-item.trending a:hover {
+  color: #e67e22; /* Slightly darker on hover */
+}
+
+.nav-item.trending.active a {
+  color: #d35400; /* Darker color for active state */
+}
+
+.nav-item:hover a {
+  color: #007BFF;
+}
+
+/* New styles for Inventory and Sales Report */
+.nav-item.report-links a {
+  color: #00bc8c; /* Unique color for report links */
+}
+
+.nav-item.report-links a:hover {
+  color: #1abc9c;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #282c34;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 160px;
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.dropdown-menu li a:hover {
+  background-color: white;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block;
+}
+
+/* Right section */
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* Search Bar Styles */
+.search-form {
+  display: flex;
+  margin-right: 10px; /* Space between the search bar and next element */
+}
+
+.search-input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.cart-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cart-button:hover {
+  background-color: #0056b3;
+}
+
+.cart-button:active {
+  transform: scale(0.98);
+}
+
+.login-link {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-link:hover {
+  background-color: #e1e1e1;
+}
+
+/* Flex alignment for buttons */
+.header-actions button,
+.header-actions form {
+  margin-left: 10px; /* Space between buttons and search bar */
+}
+
+.nav-item.inventory-report a {
+  color: #28a745; /* Green color for Inventory Report */
+}
+
+.nav-item.inventory-report a:hover {
+  color: #218838; /* Darker green on hover */
+}
+
+/* Sales Report Link */
+.nav-item.sales-report a {
+  color: #ff5733; /* Orange/Red color for Sales Report */
+}
+
+.nav-item.sales-report a:hover {
+  color: #c43d23; /* Darker orange on hover */
+}
+
+/* Ensure the suggestions list appears just below the search input */
+.search-form {
+  position: relative; /* Ensures the suggestions appear relative to the form */
+}
+
+/* Suggestions list styles - Ensure items are in a vertical list */
+.suggestions-list {
+  position: absolute;  /* Ensure it's positioned below the search bar */
+  top: 100%;  /* Pushes the list right below the search bar */
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 100;  /* Keep the suggestions above other elements */
+  width: 100%;  /* Match the width of the search bar */
+  max-height: 200px;  /* Limit the height and make it scrollable if too long */
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0;  /* Ensure space between the input and suggestions */
+  display: block;  /* Ensure the suggestions are displayed as a block */
+}
+
+.suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+  display: block;  /* Ensure each suggestion takes up a full line */
+  white-space: nowrap;  /* Prevent wrapping within a single suggestion */
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}
+

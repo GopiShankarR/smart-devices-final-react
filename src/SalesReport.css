@@ -1,0 +1,66 @@
+.sales-report-page {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.report-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto; /* Center the report on the page */
+}
+
+/* Section Styling */
+.sales-section {
+  margin-bottom: 40px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Sales Data Table Styling */
+.sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto; /* Center the table within the container */
+  font-size: 16px;
+}
+
+.sales-table th,
+.sales-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.sales-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
+}
+
+.sales-table td {
+  color: #555;
+}
+
+.sales-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.sales-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Chart Container */
+.chart-container {
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.sales-chart {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}

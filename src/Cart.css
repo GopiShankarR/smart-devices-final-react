@@ -1,0 +1,100 @@
+/* Container for the cart */
+.cart-container {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Table styling */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.product-table th, 
+.product-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;  /* Center align text, buttons, and images */
+  vertical-align: middle;  /* Vertically align all content in the middle */
+}
+
+.product-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+/* Center product image */
+.product-table img {
+  display: block;
+  margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Text centering for Product Name, Price, and ID */
+.product-table td {
+  text-align: center;  /* Ensure all text fields are centered */
+}
+
+/* Center delete button inside table cell */
+.product-table td .delete-btn {
+  display: block;
+  margin: 0 auto;  /* Center button horizontally */
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+/* Total price section */
+.total-price {
+  font-size: 20px;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Checkout button styling */
+.checkout-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background-color: #45a049;
+}

@@ -1,0 +1,82 @@
+/* Trending Page Styling */
+.trending-page {
+  padding: 20px;
+  text-align: center;
+}
+
+.trending-section {
+  margin-bottom: 40px;
+}
+
+.product-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+}
+
+.product-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.zip-table {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.zip-table th, .zip-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.zip-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.zip-table td {
+  font-size: 16px;
+}
+
+.zip-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.zip-table tr:hover {
+  background-color: #f1f1f1;
+}

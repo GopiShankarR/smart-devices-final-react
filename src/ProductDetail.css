@@ -1,0 +1,59 @@
+/* ProductDetail.css */
+
+/* Container for the product detail page */
+.product-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Heading for the product name */
+.product-detail h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+/* Styling for the product image */
+.product-detail img {
+  justify-content: center;
+}
+
+/* Product description and price styling */
+.product-detail p {
+  font-size: 1.2em;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+/* Heading for the accessories section */
+.product-detail h2 {
+  font-size: 1.5em;
+  margin-top: 20px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+/* List of accessories */
+.product-detail ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Individual accessory item */
+.product-detail li {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Accessory name and price styling */
+.product-detail h3 {
+  font-size: 1.2em;
+  margin: 5px 0;
+}
+
+.product-detail p {
+  font-size: 1em;
+  color: #333;
+}

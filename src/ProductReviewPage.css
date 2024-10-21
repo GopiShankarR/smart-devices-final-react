@@ -1,0 +1,34 @@
+.centered-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.centered-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.centered-input {
+  text-align: center;
+}
+
+.centered-form input,
+.centered-form select,
+.centered-form textarea {
+  padding: 10px;
+  width: 300px;
+  margin-top: 5px;
+  text-align: center; /* Centers the text inside the input field */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
