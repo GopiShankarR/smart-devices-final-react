@@ -30,7 +30,7 @@ const Header = ({ isLoggedIn, userType, username, onLogout }) => {
   const fetchSuggestions = (query) => {
     $.ajax({
       type: 'GET',
-      url: `http://localhost:8080/backend/autocomplete?query=${query}`, // Backend autocomplete endpoint
+      url: `http://localhost:8080/backend/autocomplete?query=${query}`,
       success: (response) => {
         setSuggestions(response);
       },

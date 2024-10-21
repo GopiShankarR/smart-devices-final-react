@@ -16,14 +16,13 @@ const AddOrder = () => {
   });
   
   const [selectedProduct, setSelectedProduct] = useState('');
-  const [products, setProducts] = useState([]); // Initialize as an empty array
+  const [products, setProducts] = useState([]); 
   const navigate = useNavigate();
 
-  // Fetch the product names when the component mounts
   useEffect(() => {
     $.ajax({
       type: 'GET',
-      url: 'http://localhost:8080/backend/product', // Fetch products list
+      url: 'http://localhost:8080/backend/product', 
       success: (response) => {
         if (response.products && Array.isArray(response.products)) {
           setProducts(response);

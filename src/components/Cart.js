@@ -71,7 +71,7 @@ const Cart = ({ username }) => {
       data: JSON.stringify({
         id: itemId,
         name: itemName,
-        image: itemImage,  // Include image and price
+        image: itemImage,
         price: itemPrice,
         action: "delete"
       }),
@@ -101,7 +101,7 @@ const Cart = ({ username }) => {
       data: JSON.stringify({
         id: itemId,
         name: itemName,
-        image: itemImage,  // Include image and price
+        image: itemImage, 
         price: itemPrice,
         action: action === "increase" ? "increaseQuantity" : "decreaseQuantity"
       }),
@@ -118,7 +118,6 @@ const Cart = ({ username }) => {
           });
           setCartItems(updatedItems);
 
-          // Recalculate total price
           const updatedTotalPrice = updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
           setTotalPrice(updatedTotalPrice);
         } else {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
-import './../AddCustomer.css'; // Include the CSS file
+import './../AddCustomer.css';
 
 const AddCustomer = () => {
   const [newCustomer, setNewCustomer] = useState({ username: '', password: '' });

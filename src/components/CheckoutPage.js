@@ -74,7 +74,6 @@ const CheckoutPage = ({ username }) => {
     const formattedOrderPlacedDate = formatDate(new Date().toISOString());
     const calculatedDeliveryDate = calculateDeliveryDate(formattedOrderPlacedDate);
 
-    // Prepare the request data
     const requestData = {
       cartItems: cartItems.map(item => ({
         id: item.id,
@@ -193,8 +192,8 @@ const StorePickup = ({ selectedStore, setSelectedStore }) => {
   }, []);
 
   const handleStoreChange = (e) => {
-    const store = stores.find(store => store.store_id === parseInt(e.target.value)); // Find the selected store
-    setSelectedStore(store); // Store the selected store object
+    const store = stores.find(store => store.store_id === parseInt(e.target.value)); 
+    setSelectedStore(store);
   };
 
   return (
