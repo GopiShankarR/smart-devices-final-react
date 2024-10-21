@@ -116,7 +116,6 @@ const ProductReviewPage = () => {
           />
         </label>
 
-        {/* Store Information with conditional red text */}
         <label>
           Store ID:
           <input

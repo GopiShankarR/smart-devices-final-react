@@ -65,7 +65,6 @@ const StoreManager = ({isLoggedIn, userType}) => {
     <div>
       <h1>Manage Products</h1>
 
-      {/* Add Product Button */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <button onClick={() => navigate('/add-product')}>Add Product</button>
       </div>

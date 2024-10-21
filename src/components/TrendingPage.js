@@ -26,8 +26,6 @@ const TrendingPage = () => {
   return (
     <div className="trending-page">
       <h1>Trending Products</h1>
-  
-      {/* Top Liked Products Section */}
       <div className="trending-section">
         <h2>Top 5 Most Liked Products</h2>
         <div className="product-card-container">
