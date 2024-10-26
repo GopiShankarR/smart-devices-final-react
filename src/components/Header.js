@@ -96,6 +96,10 @@ const Header = ({ isLoggedIn, userType, username, onLogout }) => {
               <Link smooth to="/trending">Trending</Link>
             </div>
 
+            <div className="nav-item service">
+              <Link smooth to="/customer-service">Customer Service</Link>
+            </div>
+
             {userType === "Store Manager" && (
               <>
                 <div className="nav-item inventory-report">

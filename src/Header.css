@@ -50,6 +50,18 @@
   color: #d35400; /* Darker color for active state */
 }
 
+.nav-item.service a {
+  color: #3D52A0; /* Unique highlight color for Trending */
+}
+
+.nav-item.service a:hover {
+  color: #3D52A0; /* Slightly darker on hover */
+}
+
+.nav-item.service.active a {
+  color: #3D52A0; /* Darker color for active state */
+}
+
 .nav-item:hover a {
   color: #007BFF;
 }
