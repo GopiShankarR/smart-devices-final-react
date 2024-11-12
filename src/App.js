@@ -70,7 +70,7 @@ function App() {
           <Route path="/sales-report" element={<SalesReport />} />
           <Route path="/add-product-review" element={<ProductReviewPage />} />
           <Route path="/trending" element={<TrendingPage />} />
-          <Route path="/customer-service" element={<CustomerService />} />
+          <Route path="/customer-service" element={<CustomerService username={username} />} />
           <Route path="/customer-service/open-ticket" element={<OpenTicket />} />
           <Route path="/customer-service/status" element={<TicketStatus />} />
           <Route path="/checkout-success" element={<CheckoutSuccessPage />} />

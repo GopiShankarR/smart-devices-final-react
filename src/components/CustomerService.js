@@ -2,11 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../CustomerService.css';
 
-const CustomerService = () => {
+const CustomerService = ({username}) => {
   const navigate = useNavigate();
 
   const handleOpenTicket = () => {
-    navigate("/customer-service/open-ticket");
+    console.log(username);
+    navigate("/customer-service/open-ticket", { state: { username: username } });
   };
 
   const handleCheckStatus = () => {
