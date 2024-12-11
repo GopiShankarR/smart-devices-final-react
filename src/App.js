@@ -28,6 +28,8 @@ import ProductDetails from './components/ProductDetails';
 import CustomerService from './components/CustomerService';
 import OpenTicket from './components/OpenTicket';
 import TicketStatus from './components/TicketStatus';
+import SearchReviews from './components/SearchReviews';
+import RecommendProduct from './components/RecommendProduct';
 
 
 function App() {
@@ -73,6 +75,8 @@ function App() {
           <Route path="/customer-service" element={<CustomerService username={username} />} />
           <Route path="/customer-service/open-ticket" element={<OpenTicket />} />
           <Route path="/customer-service/status" element={<TicketStatus />} />
+          <Route path="/search-reviews" element={<SearchReviews />} />
+          <Route path="/recommend-product" element={<RecommendProduct />} />
           <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
         </Routes>
       </div>

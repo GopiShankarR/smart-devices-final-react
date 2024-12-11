@@ -72,25 +72,16 @@ const Header = ({ isLoggedIn, userType, username, onLogout }) => {
         <Link smooth to="/home" className="logo">SmartHomes</Link>
         {isLoggedIn && (
           <nav className="nav-links">
-            <div className="nav-item">
-              <Link smooth to="/doorbells">Doorbells</Link>
-            </div>
-
-            <div className="nav-item">
-              <Link smooth to="/door-locks">Door Locks</Link>
-            </div>
-
-            <div className="nav-item">
-              <Link smooth to="/lightings">Lightings</Link>
-            </div>
-
-            <div className="nav-item">
-              <Link smooth to="/speakers">Speakers</Link>
-            </div>
-
-            <div className="nav-item">
-              <Link smooth to="/climate-control">Thermostats</Link>
-            </div>
+            <div className="nav-item products-dropdown">
+              <Link smooth to="#">Products</Link>
+              <ul className="dropdown-menu">
+                <li><Link smooth to="/doorbells">Doorbells</Link></li>
+                <li><Link smooth to="/door-locks">Door Locks</Link></li>
+                <li><Link smooth to="/lightings">Lightings</Link></li>
+                <li><Link smooth to="/speakers">Speakers</Link></li>
+                <li><Link smooth to="/climate-control">Thermostats</Link></li>
+              </ul>
+          </div>
 
             <div className="nav-item trending">
               <Link smooth to="/trending">Trending</Link>
@@ -98,6 +89,14 @@ const Header = ({ isLoggedIn, userType, username, onLogout }) => {
 
             <div className="nav-item service">
               <Link smooth to="/customer-service">Customer Service</Link>
+            </div>
+
+            <div className="nav-item reviews">
+              <Link smooth to="/search-reviews">Search Reviews</Link>
+            </div>
+
+            <div className="nav-item recommend">
+              <Link smooth to="/recommend-product">Recommend Product</Link>
             </div>
 
             {userType === "Store Manager" && (

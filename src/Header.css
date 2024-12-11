@@ -215,3 +215,52 @@
   background-color: #f0f0f0;
 }
 
+.nav-item.products-dropdown {
+  position: relative;
+}
+
+.nav-item.products-dropdown a {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Dropdown Menu Styles */
+.products-dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #282c34;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 160px;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.products-dropdown .dropdown-menu li {
+  padding: 10px;
+}
+
+.products-dropdown .dropdown-menu li a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 10px;
+}
+
+.products-dropdown .dropdown-menu li a:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Show Dropdown on Hover */
+.nav-item.products-dropdown:hover .dropdown-menu {
+  display: block;
+}
