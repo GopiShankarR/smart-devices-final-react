@@ -28,7 +28,12 @@
         <groupId>org.mongodb</groupId>
         <artifactId>mongodb-driver-sync</artifactId>
         <version>4.11.1</version>
-    </dependency>
+      </dependency>
+      <dependency>
+        <groupId>co.elastic.clients</groupId>
+        <artifactId>elasticsearch-java</artifactId>
+        <version>8.16.0</version>
+      </dependency>
   </dependencies>
   <build>
     <finalName>backend</finalName>

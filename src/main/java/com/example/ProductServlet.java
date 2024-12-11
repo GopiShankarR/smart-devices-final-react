@@ -1,28 +1,49 @@
 package com.example;
 
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletContext;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 @WebServlet(urlPatterns = "/product", name = "ProductServlet")
 public class ProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private ProductCatalogUtility productCatalogUtility;
+    private String openAiApiKey;
 
     @Override
     public void init() throws ServletException {
         super.init();
+
+        // Initialize Product Catalog Utility and MySQL Driver
         try {
             String xmlFilePath = getServletContext().getInitParameter("ProductCatalogXMLPath");
             if (xmlFilePath == null) {
@@ -34,6 +55,18 @@ public class ProductServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
             throw new ServletException("Initialization error", e);
+        }
+
+        // Load OpenAI API Key
+        ServletContext context = getServletContext();
+        Properties properties = new Properties();
+        try (InputStream input = context.getResourceAsStream("/WEB-INF/config.properties")) {
+            properties.load(input);
+            openAiApiKey = properties.getProperty("OPEN_AI_API_KEY");
+            System.out.println("OpenAI API Key loaded: " + openAiApiKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to load OpenAI API key.", e);
         }
     }
 
@@ -136,17 +169,7 @@ public class ProductServlet extends HttpServlet {
 
             MySQLDataStoreUtilities dbUtil = new MySQLDataStoreUtilities();
 
-            if ("delete".equals(action)) {
-                String idToDelete = jsonObject.get("id").getAsString();
-                success = dbUtil.deleteProduct(idToDelete);
-
-                if (success) {
-                    int productId = Integer.parseInt(idToDelete);
-                    productCatalogUtility.deleteProductFromXML(productId);
-                    productCatalogUtility.deleteProductFromMapById(productId);
-                }
-
-            } else {
+            if ("add".equals(action)) {
                 int id = jsonObject.has("id") ? jsonObject.get("id").getAsInt() : 0;
                 String name = jsonObject.get("name").getAsString();
                 double price = jsonObject.get("price").getAsDouble();
@@ -159,23 +182,26 @@ public class ProductServlet extends HttpServlet {
                 boolean onSale = jsonObject.has("onSale") ? jsonObject.get("onSale").getAsBoolean() : false;
                 boolean manufacturerRebate = jsonObject.has("manufacturerRebate") ? jsonObject.get("manufacturerRebate").getAsBoolean() : false;
 
-                if ("add".equals(action) && id == 0) {
+                if (id == 0) {
                     id = productCatalogUtility.generateNewProductId();
                 }
 
                 Product product = new Product(id, name, price, description, manufacturer, imageUrl, category, productQuantity, onSale, manufacturerRebate);
 
-                if ("update".equals(action)) {
-                    success = dbUtil.updateProduct(String.valueOf(id), name, price, description, manufacturer, imageUrl, category, productQuantity, onSale, manufacturerRebate);
-                    if (success) {
-                        productCatalogUtility.updateProductInXML(product);
-                        productCatalogUtility.updateProductInMap(product);
-                    }
-                } else {
-                    success = dbUtil.addProductWithId(String.valueOf(id), name, price, description, manufacturer, imageUrl, category, aidsArray, productQuantity, onSale, manufacturerRebate);
+                // Generate embedding for description
+                List<Double> descriptionEmbedding = generateEmbedding(description);
+
+                if (descriptionEmbedding != null) {
+                    // Add product to MySQL, including embedding
+                    success = dbUtil.addProductWithId(String.valueOf(id), name, price, description, manufacturer, imageUrl,
+                                                    category, aidsArray, productQuantity, onSale, manufacturerRebate, descriptionEmbedding);
+
                     if (success) {
                         productCatalogUtility.addProductToXML(product);
                         productCatalogUtility.addProductToMap(product);
+
+                        // Add product to Elasticsearch
+                        pushProductToElasticsearch(jsonObject, descriptionEmbedding);
                     }
                 }
             }
@@ -186,6 +212,76 @@ public class ProductServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private List<Double> generateEmbedding(String text) throws IOException {
+        String apiUrl = "https://api.openai.com/v1/embeddings";
+        String model = "text-embedding-3-small";
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Authorization", "Bearer " + openAiApiKey);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+
+        // Create JSON payload
+        JsonObject payload = new JsonObject();
+        payload.addProperty("model", model);
+        payload.addProperty("input", text);
+
+        // Send request payload
+        try (OutputStream os = connection.getOutputStream()) {
+            os.write(payload.toString().getBytes());
+        }
+
+        // Parse response
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            JsonObject response = JsonParser.parseReader(reader).getAsJsonObject();
+            List<Double> embedding = new ArrayList<>();
+            
+            // Extract embedding array from response
+            response.getAsJsonArray("data")
+                    .get(0).getAsJsonObject()
+                    .getAsJsonArray("embedding")
+                    .forEach(e -> embedding.add(e.getAsDouble()));
+
+            return embedding;
+        }
+    }
+
+    private void pushProductToElasticsearch(JsonObject productJson, List<Double> embedding) throws IOException {
+        try (RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200, "http")).build()) {
+            Request request = new Request("POST", "/products/_doc");
+
+            JsonObject elasticDocument = new JsonObject();
+
+            // Fetch the product ID either from productJson or database
+            int productId = 0; // Default value if not found
+            if (productJson.has("id") && !productJson.get("id").isJsonNull()) {
+                productId = productJson.get("id").getAsInt();
+            } else if (productJson.has("name") && !productJson.get("name").isJsonNull()) {
+                String productModelName = productJson.get("name").getAsString();
+                Integer fetchedId = MySQLDataStoreUtilities.fetchProductIdByModelName(productModelName);
+                productId = fetchedId != null ? fetchedId : 0; // Use the fetched ID or default to 0
+            }
+
+            // Populate the Elasticsearch document
+            elasticDocument.addProperty("product_id", productId);
+            elasticDocument.addProperty("product_name", productJson.has("name") && !productJson.get("name").isJsonNull() ? productJson.get("name").getAsString() : "Unknown");
+            elasticDocument.addProperty("price", productJson.has("price") && !productJson.get("price").isJsonNull() ? productJson.get("price").getAsDouble() : 0.0);
+            elasticDocument.addProperty("description", productJson.has("description") && !productJson.get("description").isJsonNull() ? productJson.get("description").getAsString() : "No description available");
+            elasticDocument.addProperty("manufacturer", productJson.has("manufacturer") && !productJson.get("manufacturer").isJsonNull() ? productJson.get("manufacturer").getAsString() : "Unknown");
+            elasticDocument.addProperty("category", productJson.has("category") && !productJson.get("category").isJsonNull() ? productJson.get("category").getAsString() : "Uncategorized");
+            elasticDocument.addProperty("imageurl", productJson.has("imageUrl") && !productJson.get("imageUrl").isJsonNull() ? productJson.get("imageUrl").getAsString() : "No image URL");
+            elasticDocument.addProperty("product_quantity", productJson.has("productQuantity") && !productJson.get("productQuantity").isJsonNull() ? productJson.get("productQuantity").getAsInt() : 0);
+            elasticDocument.addProperty("on_sale", productJson.has("onSale") && !productJson.get("onSale").isJsonNull() ? (productJson.get("onSale").getAsBoolean() ? 1 : 0) : 0);
+            elasticDocument.addProperty("manufacturer_rebate", productJson.has("manufacturerRebate") && !productJson.get("manufacturerRebate").isJsonNull() ? (productJson.get("manufacturerRebate").getAsBoolean() ? 1 : 0) : 0);
+            elasticDocument.add("product_embedding", JsonParser.parseString(embedding.toString()));
+
+            // Push to Elasticsearch
+            request.setJsonEntity(elasticDocument.toString());
+            restClient.performRequest(request);
         }
     }
 

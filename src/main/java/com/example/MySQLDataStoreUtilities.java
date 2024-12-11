@@ -6,12 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -182,7 +184,7 @@ public class MySQLDataStoreUtilities {
     }
 
     return orders;
-}
+  }
 
 
   public static List<OrderInfo> getOrdersByUsername(String username) throws SQLException {
@@ -972,8 +974,12 @@ public static JsonArray getAllOrders() throws SQLException {
         }
     }
 
-    public boolean addProductWithId(String id, String name, double price, String description, String manufacturer, String imageUrl, String category, JsonArray aidsArray, int productQuantity, boolean onSale, boolean manufacturerRebate) throws SQLException {
-      String insertProductQuery = "INSERT INTO Products (product_id, product_name, price, description, manufacturer, imageurl, category, product_quantity, on_sale, manufacturer_rebate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean addProductWithId(String id, String name, double price, String description, String manufacturer, 
+                                String imageUrl, String category, JsonArray aidsArray, int productQuantity, 
+                                boolean onSale, boolean manufacturerRebate, List<Double> productEmbedding) throws SQLException {
+      String insertProductQuery = "INSERT INTO Products (product_id, product_name, price, description, manufacturer, " +
+                                  "imageurl, category, product_quantity, on_sale, manufacturer_rebate, product_embedding) " +
+                                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       try (Connection conn = getConnection();
           PreparedStatement stmt = conn.prepareStatement(insertProductQuery)) {
 
@@ -987,6 +993,8 @@ public static JsonArray getAllOrders() throws SQLException {
           stmt.setInt(8, productQuantity);
           stmt.setBoolean(9, onSale);
           stmt.setBoolean(10, manufacturerRebate);
+          stmt.setString(11, productEmbedding.toString()); // Convert the List<Double> to a JSON-like String
+
           stmt.executeUpdate();
 
           if (aidsArray != null && aidsArray.size() > 0) {
@@ -1109,7 +1117,78 @@ public static JsonArray getAllOrders() throws SQLException {
       return dailySalesDataList;
     }
 
+    public boolean storeTicketInDatabase(int userId, String ticketNumber, String description, String imageUrl, String status, String confirmationNumber) {
+      System.out.println("status inside MySQLDataStoreUtilities:" + status);
+      System.out.println("confirmationNumber inside MySQLDataStoreUtilities:" + confirmationNumber);
+        String insertTicketQuery = "INSERT INTO customer_service_tickets (user_id, ticket_number, description, image_url, status, confirmation_number, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(insertTicketQuery)) {
 
+            stmt.setInt(1, userId);
+            stmt.setString(2, ticketNumber);
+            stmt.setString(3, description);
+            stmt.setString(4, imageUrl);
+            stmt.setString(5, status);
+            stmt.setString(6, confirmationNumber);
+            stmt.setTimestamp(7, new Timestamp(System.currentTimeMillis())); 
+            stmt.setTimestamp(8, new Timestamp(System.currentTimeMillis())); 
 
+            stmt.executeUpdate();
+
+            return true; 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; 
+        }
+    }
+
+  public String getTicketStatus(String ticketNumber) {
+    String query = "SELECT cst.status, p.price AS amount " +
+                   "FROM customer_service_tickets cst " +
+                   "JOIN orders o ON cst.confirmation_number = o.confirmation_number " +
+                   "JOIN order_items oi ON o.order_id = oi.order_id " +
+                   "JOIN products p ON oi.product_id = p.product_id " +
+                   "WHERE cst.ticket_number = ?";
+
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, ticketNumber);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            String status = rs.getString("status");
+            double amount = rs.getDouble("amount");
+
+            if ("Refund".equalsIgnoreCase(status)) {
+                return "{\"status\":\"" + status + "\", \"amount\":" + amount + "}";
+            } else {
+                return "{\"status\":\"" + status + "\"}";
+            }
+        } else {
+            return "{\"error\":\"Ticket not found\"}";
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return "{\"error\":\"Database error\"}";
+    }
+  }
+
+  public static Integer fetchProductIdByModelName(String productModelName) {
+    String query = "SELECT product_id FROM products WHERE product_name = ?";
+    try (Connection connection = MySQLDataStoreUtilities.getConnection();
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+
+        stmt.setString(1, productModelName);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("product_id");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null; // Return null if product ID is not found
+  } 
 
 }

@@ -10,6 +10,12 @@ import com.mongodb.client.model.Filters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.AbstractMap;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class MongoDBDataStoreUtilities {
 
@@ -58,5 +64,27 @@ public class MongoDBDataStoreUtilities {
             Filters.and(Filters.eq("product_id", productId), Filters.eq("reviewer.username", username)),
             new Document("$set", updatedReview)
         );
+    }
+
+    public static List<Map.Entry<String, JsonArray>> getStoredReviewsWithEmbeddings() {
+        List<Map.Entry<String, JsonArray>> storedReviews = new ArrayList<>();
+        MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+
+        try {
+            FindIterable<Document> documents = collection.find();
+
+            for (Document doc : documents) {
+                String reviewText = doc.getString("reviewText");
+                String embeddingString = doc.getString("reviewEmbedding");
+
+                JsonArray reviewEmbedding = JsonParser.parseString(embeddingString).getAsJsonArray();
+
+                storedReviews.add(new AbstractMap.SimpleEntry<>(reviewText, reviewEmbedding));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return storedReviews;
     }
 }
